@@ -8,6 +8,11 @@ import Providers from "next-auth/providers";
 export default NextAuth({
     // Configure one or more authentication providers
     providers: [
+        Providers.Google({
+            clientId: process.env.GOOGLE_ID,
+            clientSecret: process.env.GOOGLE_SECRET,
+        }),
+
         Providers.GitHub({
             clientId: process.env.GITHUB_ID,
             clientSecret: process.env.GITHUB_SECRET,
@@ -26,6 +31,14 @@ export default NextAuth({
             clientSecret: process.env.TWITTER_SECRET,
         }),
     ],
+
+    pages: {
+        signIn: "/signin",
+        signOut: "/",
+        error: "/auth/error", // Error code passed in query string as ?error=
+        //verifyRequest: "/auth/verify-request", // (used for check email message)
+        newUser: "/secret", // If set, new users will be directed here on first sign in
+    },
 
     // A database is optional, but required to persist accounts in a database
     //local

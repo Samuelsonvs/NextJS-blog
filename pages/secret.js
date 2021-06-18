@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/client";
+import Link from "next/link";
 
 export default function Secret() {
     const [session, loading] = useSession();
@@ -34,6 +35,9 @@ export default function Secret() {
             <div>
                 <h1>Protected Page</h1>
                 <p>{content}</p>
+                <Link href="/">
+                    <a>Back to Home Page</a>
+                </Link>
             </div>
         </main>
     );
