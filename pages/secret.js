@@ -23,22 +23,18 @@ export default function Secret() {
     if (typeof window !== "undefined" && loading) return null;
     if (!session) {
         return (
-            <main>
-                <div>
-                    <h1>{content}</h1>
-                </div>
-            </main>
+            <div>
+                <h1>{content}</h1>
+            </div>
         );
     }
     return (
-        <main>
-            <div>
-                <h1>Protected Page</h1>
-                <p>{content}</p>
-                <Link href="/">
-                    <a>Back to Home Page</a>
-                </Link>
-            </div>
-        </main>
+        <div>
+            <h1>Protected Page</h1>
+            <p>{content}</p>
+            <Link href="/">
+                <a>Back to Home Page</a>
+            </Link>
+        </div>
     );
 }

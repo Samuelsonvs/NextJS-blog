@@ -1,8 +1,9 @@
 import { getProviders, getSession, signIn } from "next-auth/client";
+import Container from "@/components/container";
 
 export default function SignIn({ providers }) {
     return (
-        <>
+        <Container>
             {Object.values(providers).map((provider) => (
                 <div key={provider.name}>
                     <button onClick={() => signIn(provider.id)}>
@@ -10,7 +11,7 @@ export default function SignIn({ providers }) {
                     </button>
                 </div>
             ))}
-        </>
+        </Container>
     );
 }
 
