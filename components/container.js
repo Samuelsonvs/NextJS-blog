@@ -53,17 +53,14 @@ export default function Container(props) {
                     />
                 )}
             </Head>
-            <nav>
-                <Navbar
-                    cb={setTheme}
-                    mounted={mounted}
-                    resolvedTheme={resolvedTheme}
-                />
-            </nav>
-            <main
-                id="skip"
-                className="flex flex-col justify-center px-8 bg-white dark:bg-black"
-            >
+
+            <Navbar
+                cb={setTheme}
+                mounted={mounted}
+                resolvedTheme={resolvedTheme}
+            />
+
+            <main className="bg-white dark:bg-black">
                 {children}
                 {/* <Footer /> */}
             </main>

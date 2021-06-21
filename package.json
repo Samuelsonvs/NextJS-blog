@@ -13,6 +13,7 @@
     "@next-auth/prisma-adapter": "^0.4.4-canary.64",
     "@prisma/client": "^2.25.0",
     "mongodb": "^3.6.9",
+    "mongoose": "^5.12.14",
     "next": "10.x",
     "next-auth": "^3.27.0",
     "next-themes": "0.0.14",

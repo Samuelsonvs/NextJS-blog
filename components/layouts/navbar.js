@@ -2,8 +2,12 @@ import { Fragment, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/client";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import Link from "next/link";
 
-const navigation = ["Dashboard", "Team", "Projects", "Calendar", "Reports"];
+const navigation = [
+    ["Home", "/"],
+    ["Blog", "/blog"],
+];
 const profile = ["Your Profile", "Settings", "Sign out"];
 
 function classNames(...classes) {
@@ -19,53 +23,64 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
     };
 
     return (
-        <div>
-            <Disclosure as="nav" className="bg-gray-800">
-                {({ open }) => (
-                    <>
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="flex items-center justify-between h-16">
-                                <div className="flex items-center">
-                                    <div className="flex-shrink-0">
-                                        <img
-                                            className="h-8 w-8"
-                                            src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                                            alt="Workflow"
-                                        />
-                                    </div>
-                                    <div className="hidden md:block">
-                                        <div className="ml-10 flex items-baseline space-x-4">
-                                            {navigation.map((item, itemIdx) =>
-                                                itemIdx === 0 ? (
-                                                    <Fragment key={item}>
-                                                        {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
+        <Disclosure as="nav">
+            {({ open }) => (
+                <>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-4 md:px-10 lg:px-20">
+                        <div className="flex items-center justify-between h-16">
+                            <div className="flex items-center">
+                                <div className="flex-shrink-0">
+                                    <Link href="/">
+                                        <a>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="h-9 w-9"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="1"
+                                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                                                />
+                                            </svg>
+                                        </a>
+                                    </Link>
+                                </div>
+                                <div className="hidden md:block">
+                                    <div className="ml-10 flex items-baseline space-x-4">
+                                        {navigation.map((item, itemIdx) =>
+                                            itemIdx === 0 ? (
+                                                <Fragment key={item[0]}>
+                                                    <Link href={item[1]}>
                                                         <a
                                                             onClick={
                                                                 handleNavButton
                                                             }
-                                                            href="#"
-                                                            className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                                                            className="button-mode px-3 py-2 rounded-md text-sm font-medium"
                                                         >
-                                                            {item}
+                                                            {item[0]}
                                                         </a>
-                                                    </Fragment>
-                                                ) : (
-                                                    <a
-                                                        onClick={
-                                                            handleNavButton
-                                                        }
-                                                        key={item}
-                                                        href="#"
-                                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                                    >
-                                                        {item}
-                                                    </a>
-                                                )
-                                            )}
-                                        </div>
+                                                    </Link>
+                                                </Fragment>
+                                            ) : (
+                                                <a
+                                                    onClick={handleNavButton}
+                                                    key={item[0]}
+                                                    href={item[1]}
+                                                    className="button-mode px-3 py-2 rounded-md text-sm font-medium"
+                                                >
+                                                    {item[0]}
+                                                </a>
+                                            )
+                                        )}
                                     </div>
                                 </div>
-                                <div className="flex">
+                            </div>
+                            <div className="flex">
+                                <div className="flex mr-2">
                                     {/* Theme Provider  */}
                                     <div className="mr-2">
                                         <button
@@ -111,7 +126,7 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
                                     {/* Theme Provider Finish */}
                                     {!session && (
                                         <button
-                                            className="bg-gray-100 text-black font-semibold focus:outline-none transition duration-100 ease transform px-2 py-1 active:scale-95 border rounded-md"
+                                            className="button-mode button-active-effect font-semibold focus:outline-none px-2 py-1 rounded-md"
                                             onClick={() => signIn()}
                                         >
                                             Sign in
@@ -119,7 +134,7 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
                                     )}
                                     {session && (
                                         <div className="hidden md:block">
-                                            <div className="ml-4 flex items-center md:ml-6">
+                                            <div className="ml-3 flex items-center md:ml-3">
                                                 <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                                     <span className="sr-only">
                                                         View notifications
@@ -145,7 +160,7 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
                                                                         menu
                                                                     </span>
                                                                     <img
-                                                                        className="h-8 w-8 rounded-full"
+                                                                        className="h-10 w-10 rounded-full"
                                                                         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                                                                         alt=""
                                                                     />
@@ -225,7 +240,7 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
                                 </div>
                                 <div className="-mr-2 flex md:hidden">
                                     {/* Mobile menu button */}
-                                    <Disclosure.Button className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                                    <Disclosure.Button className="button-mode inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                         <span className="sr-only">
                                             Open main menu
                                         </span>
@@ -244,31 +259,31 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <Disclosure.Panel className="md:hidden">
-                            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                                {navigation.map((item, itemIdx) =>
-                                    itemIdx === 0 ? (
-                                        <Fragment key={item}>
-                                            {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-                                            <a
-                                                href="#"
-                                                className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-                                            >
-                                                {item}
+                    <Disclosure.Panel className="md:hidden">
+                        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                            {navigation.map((item, itemIdx) =>
+                                itemIdx === 0 ? (
+                                    <Fragment key={item[0]}>
+                                        <Link href={item[1]}>
+                                            <a className="button-mode block px-3 py-2 rounded-md text-base font-medium">
+                                                {item[0]}
                                             </a>
-                                        </Fragment>
-                                    ) : (
-                                        <a
-                                            key={item}
-                                            href="#"
-                                            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                                        >
-                                            {item}
-                                        </a>
-                                    )
-                                )}
-                            </div>
+                                        </Link>
+                                    </Fragment>
+                                ) : (
+                                    <a
+                                        key={item[0]}
+                                        href={item[1]}
+                                        className="button-mode block px-3 py-2 rounded-md text-base font-medium"
+                                    >
+                                        {item[0]}
+                                    </a>
+                                )
+                            )}
+                        </div>
+                        {session && (
                             <div className="pt-4 pb-3 border-t border-gray-700">
                                 <div className="flex items-center px-5">
                                     <div className="flex-shrink-0">
@@ -297,21 +312,31 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
                                     </button>
                                 </div>
                                 <div className="mt-3 px-2 space-y-1">
-                                    {profile.map((item) => (
-                                        <a
-                                            key={item}
-                                            href="#"
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                                        >
-                                            {item}
-                                        </a>
-                                    ))}
+                                    {profile.map((item) =>
+                                        item === "Sign out" ? (
+                                            <a
+                                                onClick={() => signOut()}
+                                                href="#"
+                                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                                            >
+                                                {item}
+                                            </a>
+                                        ) : (
+                                            <a
+                                                key={item}
+                                                href="#"
+                                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                                            >
+                                                {item}
+                                            </a>
+                                        )
+                                    )}
                                 </div>
                             </div>
-                        </Disclosure.Panel>
-                    </>
-                )}
-            </Disclosure>
-        </div>
+                        )}
+                    </Disclosure.Panel>
+                </>
+            )}
+        </Disclosure>
     );
 }
