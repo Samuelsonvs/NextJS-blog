@@ -1,3 +1,5 @@
+const { spacing, fontFamily } = require("tailwindcss/defaultTheme");
+
 module.exports = {
     purge: [
         "./pages/**/*.{js,ts,jsx,tsx}",
@@ -5,7 +7,11 @@ module.exports = {
     ],
     darkMode: "class", // or 'media' or 'class'
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                sans: ["Poppins", ...fontFamily.sans],
+            },
+        },
     },
     variants: {
         extend: {
