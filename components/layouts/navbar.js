@@ -26,7 +26,7 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
         <Disclosure as="nav">
             {({ open }) => (
                 <>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-4 md:px-10 lg:px-20">
+                    <div className="max-w-7xl mx-auto px-4 py-2 sm:px-4 md:px-2 lg:px-15">
                         <div className="flex items-center justify-between h-16">
                             <div className="flex items-center">
                                 <div className="flex-shrink-0">

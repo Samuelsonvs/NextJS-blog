@@ -42,7 +42,10 @@ export default function Blog() {
                     {svgIcons.map((state) => {
                         return (
                             <div key={state[0]}>
-                                <button className="flex">
+                                <a
+                                    href={`/categories`}
+                                    className="flex cursor-pointer"
+                                >
                                     <SvgCreator
                                         d={state[1]}
                                         title={state[0]}
@@ -51,7 +54,7 @@ export default function Blog() {
                                     <span className="text-xl font-semibold">
                                         {state[0]}
                                     </span>
-                                </button>
+                                </a>
                             </div>
                         );
                     })}
@@ -60,3 +63,5 @@ export default function Blog() {
         </Container>
     );
 }
+
+// ${state[0].toLowerCase()}
