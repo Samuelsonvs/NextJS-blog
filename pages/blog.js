@@ -43,7 +43,7 @@ export default function Blog() {
                         return (
                             <div key={state[0]}>
                                 <a
-                                    href={`/categories`}
+                                    href={`/blog/${state[0].toLowerCase()}`}
                                     className="flex cursor-pointer"
                                 >
                                     <SvgCreator
@@ -63,5 +63,3 @@ export default function Blog() {
         </Container>
     );
 }
-
-// ${state[0].toLowerCase()}

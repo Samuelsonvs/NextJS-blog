@@ -1,9 +1,8 @@
 import Link from "next/link";
 
-const BlogPost = ({ title, summary, slug }) => {
-    console.log(slug);
+const BlogPost = ({ title, summary, slug, url }) => {
     return (
-        <Link href={`/categories/${slug}`}>
+        <Link href={`/blog/${url}/${slug}`}>
             <a className="w-full">
                 <div className="mb-8 w-full">
                     <div className="flex flex-col md:flex-row justify-between">

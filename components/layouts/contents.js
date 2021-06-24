@@ -2,9 +2,8 @@ import { useState } from "react";
 
 import Container from "@/components/container";
 import BlogPost from "@/components/blogPost";
-import { getAllFilesFrontMatter } from "@/lib/mdx";
 
-export default function Category({ posts }) {
+export default function Contents({ posts, url, explanation, title }) {
     const [searchValue, setSearchValue] = useState("");
     const filteredBlogPosts = posts
         .sort(
@@ -18,17 +17,15 @@ export default function Category({ posts }) {
 
     return (
         <Container
-            title="Blog – Css"
+            title={`Snippets - ${title}`}
             description="Thoughts on the software industry, programming, tech, videography, music, and my personal life."
         >
             <div className="flex flex-col justify-center items-start max-w-2xl mx-auto mb-16">
                 <h1 className="font-bold text-3xl md:text-5xl tracking-tight mb-4 text-black dark:text-white">
-                    Css Snippets
+                    {`${title} Snippets`}
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
-                    {`The CSS snippet collection contains utilities and interactive examples for CSS3. 
-                    It includes modern techniques for creating commonly-used layouts, 
-                    styling and animating elements, as well as snippets for handling user interactions.
+                    {`${explanation}
                     In total ${posts.length} articles on this site.
                     Use the search below to filter by title.`}
                 </p>
@@ -64,33 +61,14 @@ export default function Category({ posts }) {
                     </p>
                 )}
                 {filteredBlogPosts.map((frontMatter) => (
-                    <BlogPost key={frontMatter.title} {...frontMatter} />
+                    <BlogPost
+                        key={frontMatter.title}
+                        url={url}
+                        summary={frontMatter.description}
+                        {...frontMatter}
+                    />
                 ))}
             </div>
         </Container>
     );
 }
-
-export async function getStaticProps() {
-    const posts = await getAllFilesFrontMatter("Css");
-
-    return { props: { posts } };
-}
-
-// export async function getStaticPaths() {
-//     const posts = await getFileNames("mdxData");
-//     console.log(posts);
-//     return {
-//         paths: posts.map((p) => ({
-//             params: {
-//                 slug: p,
-//             },
-//         })),
-//         fallback: false,
-//     };
-// }
-
-// export async function getStaticProps({ params }) {
-//     const post = await getFileBySlug(params.slug);
-//     return { props: { ...post } };
-// }
