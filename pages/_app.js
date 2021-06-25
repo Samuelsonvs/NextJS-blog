@@ -4,10 +4,12 @@ import { ThemeProvider } from "next-themes";
 
 function MyApp({ Component, pageProps }) {
     return (
-        <ThemeProvider attribute="class">
-            {" "}
-            <Component {...pageProps} />
-        </ThemeProvider>
+        <Provider session={pageProps.session}>
+            <ThemeProvider attribute="class">
+                {" "}
+                <Component {...pageProps} />
+            </ThemeProvider>
+        </Provider>
     );
 }
 

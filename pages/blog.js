@@ -44,16 +44,13 @@ export default function Blog() {
                             <div key={state[0]}>
                                 <a
                                     href={`/blog/${state[0].toLowerCase()}`}
-                                    className="flex cursor-pointer"
+                                    className="cursor-pointer"
                                 >
                                     <SvgCreator
                                         d={state[1]}
                                         title={state[0]}
                                         heightOption={"h-7 sm:h-10"}
                                     />
-                                    <span className="text-xl font-semibold">
-                                        {state[0]}
-                                    </span>
                                 </a>
                             </div>
                         );
