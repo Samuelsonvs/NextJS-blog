@@ -55,10 +55,10 @@ export default function SnippetLayout({ children, frontMatter }) {
                 {/* form created */}
                 <div className="border border-blue-200 rounded p-6 my-4 w-full dark:border-gray-800 bg-blue-50 dark:bg-blue-opaque">
                     <h5 className="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100">
-                        Sign the Guestbook
+                        Sign for comment
                     </h5>
                     <p className="my-1 text-gray-800 dark:text-gray-200">
-                        Share a message for a future visitor of my site.
+                        You can write your questions about the subject below.
                     </p>
                     {session ? (
                         <form className="relative my-4" onSubmit={app}>
