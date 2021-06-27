@@ -56,6 +56,12 @@ export default function Blog() {
                         );
                     })}
                 </div>
+                <div>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-5">
+                        Some Little Content
+                    </h2>
+                    <div className="w-full h-96 border border-dashed border-black"></div>
+                </div>
             </Template>
         </Container>
     );
