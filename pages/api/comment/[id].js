@@ -1,46 +1,31 @@
-//import comments from "@/lib/commentSchema";
+import comments from "@/lib/commentSchema";
+import connectDB from "@/lib/mongodb";
 
 export default async function handle(req, res) {
-    const status = req.body.status;
-    if (status) {
-        console.log(status);
-    } else {
-        console.log("not signin");
+    const subject = req.url.split("/").pop();
+    await connectDB();
+    if (req.method === "GET") {
+        const cmnt = await comments.find({ subject });
+        return res.json(cmnt);
     }
-    //   const { login, email } = req.session;
-    //   const entry = JSON.parse((await redis.hget('guestbook', id)) || 'null');
 
-    //   if (req.method === 'GET') {
-    //     const { email, ...restOfEntry } = entry;
+    const { name } = req.body.status.user;
+    if (name) {
+        try {
+            if (req.method === "POST") {
+                const newEntry = new comments({
+                    name,
+                    subject,
+                    body: (req.body.body || "").slice(0, 500),
+                });
 
-    //     return res.json(restOfEntry);
-    //   }
-
-    //   if (req.method === 'DELETE') {
-    //     if (!login || login !== entry.created_by) {
-    //       return res.status(403).send('Unauthorized');
-    //     }
-
-    //     await redis.hdel('guestbook', id);
-    //     return res.status(204).json({});
-    //   }
-
-    //   if (req.method === 'PUT') {
-    //     if (!login || login !== entry.created_by) {
-    //       return res.status(403).send('Unauthorized');
-    //     }
-
-    //     const updated = {
-    //       id,
-    //       email,
-    //       updated_at: Date.now(),
-    //       body: (req.body.body || '').slice(0, 500),
-    //       created_by: login
-    //     };
-
-    //     await redis.hset('guestbook', id, JSON.stringify(updated));
-    //     return res.status(201).json(updated);
-    //   }
-
-    return res.status(201).json(status);
+                await newEntry.save();
+                return res.status(200).json(newEntry);
+            }
+        } catch (err) {
+            return res.status(400).json(err);
+        }
+    } else {
+        return res.status(201).json("error");
+    }
 }
