@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useSession } from "next-auth/client";
+import { session, useSession } from "next-auth/client";
 import Container from "@/components/container";
 import LoadingSpinner from "../loadingSpinner";
 import { useRef } from "react";
@@ -9,9 +9,54 @@ import useSWR, { mutate } from "swr";
 import Link from "next/link";
 import { format } from "date-fns";
 
+const CommentEntry = ({ post, uri, commentSession }) => {
+    const deleteComment = async (e) => {
+        e.preventDefault();
+        await fetch(`/api/comment/${uri}`, {
+            body: JSON.stringify({
+                status: commentSession,
+            }),
+            method: "DELETE",
+        });
+
+        mutate("/api/comment");
+    };
+
+    return (
+        <li className="mt-10">
+            <div className="flex">
+                <div className="mr-5">{post.name}</div>
+                <div>
+                    {format(
+                        new Date(post.createdAt),
+                        "d MMM yyyy 'at' h:mm bb"
+                    )}
+                </div>
+                <div>
+                    {commentSession && commentSession.user.name === post.name && (
+                        <>
+                            <span className="text-gray-200 dark:text-gray-800">
+                                /
+                            </span>
+                            <button
+                                className="text-sm text-red-600 dark:text-red-400"
+                                onClick={deleteComment}
+                            >
+                                Delete
+                            </button>
+                        </>
+                    )}
+                </div>
+            </div>
+            <div className="text-lg font-semibold mt-3 text-black dark:text-white">
+                {post.body}
+            </div>
+        </li>
+    );
+};
+
 export default function SnippetLayout({ children, frontMatter, allComment }) {
     const router = useRouter();
-    console.log(allComment);
     const history = router.pathname.split("/")[2];
     const uri = router.query.slug;
     const [session, loading] = useSession();
@@ -92,7 +137,7 @@ export default function SnippetLayout({ children, frontMatter, allComment }) {
                     </div>
                     <div className="mt-2 sm:mt-0"></div>
                 </div>
-                <div className="prose dark:prose-dark w-full dark:text-gray-200">
+                <div className="prose dark:prose-dark w-full dark:text-gray-200 max-w-none">
                     {children}
                 </div>
                 {/* form created */}
@@ -142,20 +187,12 @@ export default function SnippetLayout({ children, frontMatter, allComment }) {
                 <div className="mt-4 space-y-8 text-gray-500 dark:text-gray-400">
                     <ul>
                         {entries?.map((post, index) => (
-                            <li key={index}>
-                                <div className="flex">
-                                    <div className="mr-5">{post.name}</div>
-                                    <div>
-                                        {format(
-                                            new Date(post.createdAt),
-                                            "d MMM yyyy 'at' h:mm bb"
-                                        )}
-                                    </div>
-                                </div>
-                                <div className="text-lg font-semibold mt-3 text-black dark:text-white">
-                                    {post.body}
-                                </div>
-                            </li>
+                            <CommentEntry
+                                key={index}
+                                post={post}
+                                uri={uri}
+                                commentSession={session}
+                            />
                         ))}
                     </ul>
                 </div>

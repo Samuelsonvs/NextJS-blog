@@ -2,8 +2,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import NextLink from "next/link";
 import Navbar from "./layouts/navbar";
+import Footer from "./layouts/footer";
 
 export default function Container(props) {
     const [mounted, setMounted] = useState(false);
@@ -47,10 +47,13 @@ export default function Container(props) {
                 resolvedTheme={resolvedTheme}
             />
 
-            <main className="bg-white dark:bg-black">
+            <main className="bg-white dark:bg-black px-4">
                 {children}
                 {/* <Footer /> */}
             </main>
+            <footer>
+                <Footer />
+            </footer>
         </div>
     );
 }

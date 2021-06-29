@@ -6,7 +6,9 @@ export default function Page() {
     return (
         <Container>
             <Template navTitle={"Home"} contentTitle={"Hi Im Mert Samet Atalı"}>
-                <p className="leading-10">This site powered by NextJs</p>
+                <p className="leading-10 mb-5 dark:text-gray-200 text-gray-500">
+                    Welcome to Software Blog
+                </p>
                 <Image
                     alt="glasees and book"
                     width={1920 / 2}

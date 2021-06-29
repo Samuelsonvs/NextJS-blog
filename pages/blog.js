@@ -1,6 +1,8 @@
 import Container from "@/components/container";
 import Template from "@/components/template";
 import SvgCreator from "@/components/svgCreator";
+import { getFileBySlug } from "@/lib/mdx";
+import { MDXRemote } from "next-mdx-remote";
 
 const svgIcons = [
     [
@@ -29,7 +31,7 @@ const svgIcons = [
     ],
 ];
 
-export default function Blog() {
+export default function Blog({ mdxSource, frontMatter }) {
     return (
         <Container>
             <Template
@@ -58,11 +60,21 @@ export default function Blog() {
                 </div>
                 <div>
                     <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-5">
-                        Some Little Content
+                        {frontMatter.title}
                     </h2>
-                    <div className="w-full h-96 border border-dashed border-black"></div>
+                    <div className="text-gray-500 dark:text-gray-200 prose max-w-none mt-5">
+                        <MDXRemote {...mdxSource} />
+                    </div>
                 </div>
             </Template>
         </Container>
     );
+}
+
+export async function getStaticProps() {
+    const post = await getFileBySlug("BlogContent", "blog-main-post");
+
+    return {
+        props: { ...post },
+    };
 }
