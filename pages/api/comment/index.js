@@ -1,5 +1,5 @@
-import comments from "@/lib/commentSchema";
-import connectDB from "@/lib/mongodb";
+import comments from "@/db/commentSchema";
+import connectDB from "@/db/mongodb";
 
 export default async (req, res) => {
     await connectDB();

@@ -8,18 +8,49 @@ import fetcher from "@/lib/fetcher";
 import useSWR, { mutate } from "swr";
 import Link from "next/link";
 import { format } from "date-fns";
+import Swal from "sweetalert2";
 
 const CommentEntry = ({ post, uri, commentSession }) => {
     const deleteComment = async (e) => {
         e.preventDefault();
-        await fetch(`/api/comment/${uri}`, {
-            body: JSON.stringify({
-                status: commentSession,
-            }),
-            method: "DELETE",
+        Swal.fire({
+            title: "Error!",
+            showConfirmButton: true,
+            showDenyButton: true,
+            denyButtonText: "cancel",
+            text: "Do you want to continue",
+            icon: "warning",
+            confirmButtonText: "Im sure",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                (() => {
+                    return new Promise(async (resolve, reject) => {
+                        await fetch(`/api/comment/${uri}`, {
+                            body: JSON.stringify({
+                                status: commentSession,
+                                id: post._id,
+                            }),
+                            method: "DELETE",
+                        })
+                            .then((response) => {
+                                resolve(response);
+                            })
+                            .catch((err) => {
+                                reject(err);
+                            });
+                        mutate(`/api/comment`);
+                    });
+                })()
+                    .then(() => {
+                        console.log("ss");
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            } else if (result.isDenied) {
+                Swal.fire("Comment not deleted", "", "info");
+            }
         });
-
-        mutate("/api/comment");
     };
 
     return (
