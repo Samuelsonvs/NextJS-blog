@@ -34,15 +34,15 @@ const CommentEntry = ({ post, uri, commentSession }) => {
                         })
                             .then((response) => {
                                 resolve(response);
+                                mutate(`/api/comment/${uri}`);
                             })
                             .catch((err) => {
                                 reject(err);
                             });
-                        mutate(`/api/comment`);
                     });
                 })()
                     .then(() => {
-                        console.log("ss");
+                        Swal.fire("Deleted!", "", "success");
                     })
                     .catch((err) => {
                         console.log(err);
