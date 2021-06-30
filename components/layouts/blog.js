@@ -2,7 +2,9 @@ import Image from "next/image";
 import { session, useSession } from "next-auth/client";
 import Container from "@/components/container";
 import LoadingSpinner from "../loadingSpinner";
-import { useRef } from "react";
+import SuccessMessage from "@/components/successMessage";
+import ErrorMessage from "@/components/errorMessage";
+import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import fetcher from "@/lib/fetcher";
 import useSWR, { mutate } from "swr";
@@ -10,11 +12,11 @@ import Link from "next/link";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
 
-const CommentEntry = ({ post, uri, commentSession }) => {
+const CommentEntry = ({ post, uri, commentSession, formSetter }) => {
     const deleteComment = async (e) => {
         e.preventDefault();
         Swal.fire({
-            title: "Error!",
+            title: "Warning!",
             showConfirmButton: true,
             showDenyButton: true,
             denyButtonText: "cancel",
@@ -35,6 +37,7 @@ const CommentEntry = ({ post, uri, commentSession }) => {
                             .then((response) => {
                                 resolve(response);
                                 mutate(`/api/comment/${uri}`);
+                                formSetter(false);
                             })
                             .catch((err) => {
                                 reject(err);
@@ -87,6 +90,7 @@ const CommentEntry = ({ post, uri, commentSession }) => {
 };
 
 export default function SnippetLayout({ children, frontMatter, allComment }) {
+    const [form, setForm] = useState(false);
     const router = useRouter();
     const history = router.pathname.split("/")[2];
     const uri = router.query.slug;
@@ -97,7 +101,8 @@ export default function SnippetLayout({ children, frontMatter, allComment }) {
     });
     const app = async (e) => {
         e.preventDefault();
-        await fetch(`/api/comment/${uri}`, {
+        setForm({ state: "loading" });
+        const res = await fetch(`/api/comment/${uri}`, {
             body: JSON.stringify({
                 status: session,
                 body: inputEl.current.value,
@@ -107,8 +112,23 @@ export default function SnippetLayout({ children, frontMatter, allComment }) {
             },
             method: "POST",
         });
+
+        const { error } = await res.json();
+
+        if (error) {
+            setForm({
+                state: "error",
+                message: error,
+            });
+            return;
+        }
+
         inputEl.current.value = "";
         mutate(`/api/comment/${uri}`);
+        setForm({
+            state: "success",
+            message: `Thanks for comments.`,
+        });
     };
     return (
         <Container
@@ -192,7 +212,11 @@ export default function SnippetLayout({ children, frontMatter, allComment }) {
                                 className="flex items-center justify-center absolute right-1 top-1 px-4 font-bold h-8 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded w-28"
                                 type="submit"
                             >
-                                {loading ? <LoadingSpinner /> : "Sign"}
+                                {form.state === "loading" ? (
+                                    <LoadingSpinner />
+                                ) : (
+                                    "Sign"
+                                )}
                             </button>
                         </form>
                     ) : (
@@ -203,17 +227,16 @@ export default function SnippetLayout({ children, frontMatter, allComment }) {
                             Login
                         </a>
                     )}
-                    {/* {form.state === 'error' ? (
-          <ErrorMessage>{form.message}</ErrorMessage>
-        ) : form.state === 'success' ? (
-          <SuccessMessage>{form.message}</SuccessMessage>
-        ) :  */}
-                    {/* ( */}
-                    <p className="text-sm text-gray-800 dark:text-gray-200">
-                        Your information is only used to display your name and
-                        reply by email.
-                    </p>
-                    {/* )} */}
+                    {form.state === "error" ? (
+                        <ErrorMessage>{form.message}</ErrorMessage>
+                    ) : form.state === "success" ? (
+                        <SuccessMessage>{form.message}</SuccessMessage>
+                    ) : (
+                        <p className="text-sm text-gray-800 dark:text-gray-200">
+                            Your information is only used to display your name
+                            and reply by email.
+                        </p>
+                    )}
                 </div>
                 <div className="mt-4 space-y-8 text-gray-500 dark:text-gray-400">
                     <ul>
@@ -223,6 +246,7 @@ export default function SnippetLayout({ children, frontMatter, allComment }) {
                                 post={post}
                                 uri={uri}
                                 commentSession={session}
+                                formSetter={setForm}
                             />
                         ))}
                     </ul>

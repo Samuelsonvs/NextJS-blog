@@ -1,6 +1,7 @@
 import { getProviders, getSession, signIn } from "next-auth/client";
 import Container from "@/components/container";
 import SvgCreator from "@/components/svgCreator";
+import Swal from "sweetalert2";
 
 const svgList = [
     [
@@ -18,6 +19,24 @@ const svgList = [
 ];
 
 export default function SignIn({ providers }) {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+    });
+
+    const signUser = (id) => {
+        Toast.fire({
+            icon: "info",
+            title: "Being redirecting",
+        }).then(() => signIn(id));
+    };
     return (
         <Container>
             <div className="flex flex-col items-center pt-10 sm:pt-20">
@@ -35,7 +54,7 @@ export default function SignIn({ providers }) {
                             >
                                 <button
                                     className="button-mode button-active-effect flex py-4 px-4 text-base sm:text-lg font-medium"
-                                    onClick={() => signIn(provider.id)}
+                                    onClick={() => signUser(provider.id)}
                                 >
                                     <SvgCreator
                                         d={svgList[index][1]}
