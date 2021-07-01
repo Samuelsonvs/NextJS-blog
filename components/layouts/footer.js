@@ -1,4 +1,5 @@
 import SvgCreator from "../svgCreator";
+import NewsletterSubscribe from "@/lib/newsletterSubscribe";
 
 const navigation = [
     ["Home", "/"],
@@ -47,6 +48,7 @@ export default function Footer() {
                                 })}
                             </div>
                         </div>
+                        <NewsletterSubscribe />
                         <div className="flex flex-row justify-center mt-10">
                             <div className="my-2">
                                 <a
