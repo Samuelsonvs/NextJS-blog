@@ -9,6 +9,7 @@ export default function Page() {
         <p className="leading-10 mb-5 dark:text-gray-200 text-gray-500">
           Welcome to Software Blog
         </p>
+        <h2 className="">New content will come here</h2>
         <Image
           alt="glasees and book"
           width={1920 / 2}
