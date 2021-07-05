@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/client";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import Image from "next/image";
 import Link from "next/link";
 
 const navigation = [
@@ -142,7 +143,7 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
                                   <span className="sr-only">
                                     Open user menu
                                   </span>
-                                  <img
+                                  <Image
                                     className="h-10 w-10 rounded-full"
                                     src={session.user.image}
                                     alt=""
@@ -241,7 +242,7 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
               <div className="pt-4 pb-3 border-t border-gray-700">
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
-                    <img
+                    <Image
                       className="h-10 w-10 rounded-full"
                       src={session.user.image}
                       alt=""

@@ -209,12 +209,11 @@ export default function SnippetLayout({ children, frontMatter, allComment }) {
               </button>
             </form>
           ) : (
-            <a
-              className="flex items-center justify-center my-4 font-bold h-8 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded w-28"
-              href="/signin"
-            >
-              Login
-            </a>
+            <Link href="/signin">
+              <a className="flex items-center justify-center my-4 font-bold h-8 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded w-28">
+                Login
+              </a>
+            </Link>
           )}
           {form.state === "error" ? (
             <ErrorMessage>{form.message}</ErrorMessage>

@@ -1,4 +1,4 @@
 module.exports = {
   arrowParens: "always",
-  tabWidth: 2
+  tabWidth: 2,
 };
