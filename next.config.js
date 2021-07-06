@@ -3,5 +3,6 @@ module.exports = withMDX({
   pageExtensions: ["js", "mdx"],
   images: {
     domains: ["lh3.googleusercontent.com"],
+    hostname: ["avatars.githubusercontent.com"],
   },
 });
