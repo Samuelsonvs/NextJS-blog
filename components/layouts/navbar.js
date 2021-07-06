@@ -144,7 +144,9 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
                                     Open user menu
                                   </span>
                                   <Image
-                                    className="h-10 w-10 rounded-full"
+                                    className="rounded-full"
+                                    width={40}
+                                    height={40}
                                     src={session.user.image}
                                     alt=""
                                   />
@@ -243,7 +245,9 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
                     <Image
-                      className="h-10 w-10 rounded-full"
+                      className="rounded-full"
+                      width={40}
+                      height={40}
                       src={session.user.image}
                       alt=""
                     />
