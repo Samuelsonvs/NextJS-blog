@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
+
 import Container from "@/components/container";
 import Template from "@/components/template";
 import SvgCreator from "@/components/svgCreator";
 import { getFileBySlug } from "@/lib/mdx";
-import { MDXRemote } from "next-mdx-remote";
+import { getMDXComponent } from 'mdx-bundler/client';
 
 const svgIcons = [
   [
@@ -31,7 +33,8 @@ const svgIcons = [
   ],
 ];
 
-export default function Blog({ mdxSource, frontMatter }) {
+export default function Blog({ code, frontMatter }) {
+  const Component = useMemo(() => getMDXComponent(code), [code]);
   return (
     <Container>
       <Template
@@ -61,7 +64,7 @@ export default function Blog({ mdxSource, frontMatter }) {
             {frontMatter.title}
           </h2>
           <div className="text-gray-500 dark:text-gray-200 prose max-w-none mt-5">
-            <MDXRemote {...mdxSource} />
+            <Component />
           </div>
         </div>
       </Template>
