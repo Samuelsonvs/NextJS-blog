@@ -118,13 +118,18 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
                     </button>
                   </div>
                   {/* Theme Provider Finish */}
-                  {!session && (
+                  {!session && !loading &&  (
                     <button
                       className="button-mode button-active-effect font-semibold focus:outline-none px-2 py-1 rounded-md"
                       onClick={() => signIn()}
                     >
                       Sign in
                     </button>
+                  )}
+                  {loading && (
+                    <div className="animate-spin h-5 w-5"> 
+                        Loading...
+                    </div>
                   )}
                   {session && (
                     <div className="hidden md:block">
