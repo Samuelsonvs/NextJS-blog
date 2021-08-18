@@ -126,11 +126,6 @@ export default function Navbar({ cb, mounted, resolvedTheme }) {
                       Sign in
                     </button>
                   )}
-                  {loading && (
-                    <div className="animate-spin h-5 w-5"> 
-                        Loading...
-                    </div>
-                  )}
                   {session && (
                     <div className="hidden md:block">
                       <div className="ml-3 flex items-center md:ml-3">
